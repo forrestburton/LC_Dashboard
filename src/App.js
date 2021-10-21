@@ -1,7 +1,7 @@
 import { Layout, Menu, Breadcrumb } from 'antd';
 import RAM from './graphs/ram.png';
+import CPU from './graphs/cpu.png';
 const { Header, Content, Footer } = Layout;
-//import CPU from './graphs/cpu.png';
 
 function App() {
   return (
@@ -11,7 +11,9 @@ function App() {
     </Header>
     <Content style={{ padding: '0 50px' }}>
       <div className="site-layout-content">
-        <img src={RAM} display/>  
+        <h3 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Bender 0</h3>
+        <img src={RAM} />  
+        <img src={CPU} />
       </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Lucid Circuit ©2021 Created by Forrest Burton</Footer>
