@@ -4,9 +4,8 @@ import CPU_GRAPH from './graphs/cpu.png';
 import LUCID_LOGO from './graphs/logo.png';
 import NUM_USERS from './graphs/users.txt';
 import METRICS from './graphs/metrics.csv';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as d3 from "d3";
-import $ from 'jquery';
 import {
   Chart,
   ArcElement,
@@ -96,23 +95,77 @@ function App() {
       console.log('Data loaded from loadDataWithPromise')
       console.log(data)
       
-      var curr_User;
+      var curr_User = []
       let curr_RAM = []
       let curr_CPU = []
       let curr_Time = []
-      
+      var user_Num = 0;
+      let RAM_dataset = []
+      let CPU_dataset = []
+
       for (let i = 0; i < data.length; i++) {
-        curr_User = data[i].User;
+        var user = data[i].User;  // get current user
+
+        if (i !== 0 && user != curr_User[user_Num]) {  // determine if this is a new user, and therefore a new dataset
+          RAM_dataset.push(  // push RAM data for this user
+            {
+              label: curr_User[user_Num],  // name of user
+              data: curr_RAM,  //y-axis
+              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }
+          )
+          CPU_dataset.push(  // push CPU data for this user
+            {
+              label: curr_User[user_Num],  // name of user
+              data: curr_CPU,  //y-axis
+              backgroundColor: 'rgba(0,206,209, 0.5)',
+              borderColor: 'rgba(0,206,209, 1)',
+              borderWidth: 1
+            }
+          )
+          user_Num += 1
+
+          // clear datasets for next user
+          curr_RAM = []
+          curr_CPU = []
+          // curr_Time = []
+        }
+        curr_User[user_Num] = user;
         curr_Time.push(data[i].Time)
         curr_RAM.push(data[i].RAM)
         curr_CPU.push(data[i].CPU)
       }
-      generateGraphs(curr_User, curr_Time, curr_RAM, 'myChart1', curr_User, 'GB', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 1)')
-      generateGraphs(curr_User, curr_Time, curr_CPU, 'myChart2', curr_User, '%', 'rgba(0,206,209, 0.5)', 'rgba(0,206,209, 1)')
+      
+      // Push data one more time for last iteration 
+      RAM_dataset.push(  // push RAM data for this user
+        {
+          label: curr_User[user_Num],  // name of user
+          data: curr_RAM,  //y-axis
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }
+      )
+      CPU_dataset.push(  // push CPU data for this user
+        {
+          label: curr_User[user_Num],  // name of user
+          data: curr_CPU,  //y-axis
+          backgroundColor: 'rgba(0,206,209, 0.5)',
+          borderColor: 'rgba(0,206,209, 1)',
+          borderWidth: 1
+        }
+      )
+      console.log("PRINTING RAM: ")
+      console.log(RAM_dataset)
+
+      generateGraphs(RAM_dataset, curr_Time, 'myChart1', 'GB')
+      generateGraphs(CPU_dataset, curr_Time, 'myChart2', '%')
     })
   }
 
-  function generateGraphs(user, x_axis, y_axis, id, label, units, backgroundColor, borderColor) {
+  function generateGraphs(dataset, x_axis, id, units) {
     // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
@@ -123,14 +176,8 @@ function App() {
     window.myChart1 = new Chart(ctx, {
       type: 'line',
       data: {
-          labels: x_axis,  // x-axis
-          datasets: [{
-              label: label,
-              data: y_axis,  //y-axis
-              backgroundColor: backgroundColor,
-              borderColor: borderColor,
-              borderWidth: 1
-          }]
+        labels: x_axis,  // x-axis
+        datasets: dataset
       },
       options: {
           scales: {
