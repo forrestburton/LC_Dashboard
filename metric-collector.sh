@@ -80,11 +80,11 @@ touch $txt_filename
 echo "Writing data to CSV file $csv_filename..."
 rm $csv_filename
 touch $csv_filename
-echo "Time,CPU,RAM" >> $csv_filename
+echo "User,Time,CPU,RAM" >> $csv_filename
 echo "Number of users: $num_users"
 
 num=10
-time=1
+time=5
 for user in $people
 do 
     #echo "$user" >> $csv_filename
@@ -93,7 +93,7 @@ do
         timestamp=$(date +"%b %d %H:%M:%S")
         cpu=$(./cpu.sh $user) 
         ram=$(./ram.sh $user)
-        echo "$timestamp,$cpu,$ram" >> $csv_filename
+        echo "$user,$timestamp,$cpu,$ram" >> $csv_filename
         sleep $time
     done
 done

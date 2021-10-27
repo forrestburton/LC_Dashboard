@@ -96,21 +96,23 @@ function App() {
       console.log('Data loaded from loadDataWithPromise')
       console.log(data)
       
+      var curr_User;
       let curr_RAM = []
       let curr_CPU = []
       let curr_Time = []
       
       for (let i = 0; i < data.length; i++) {
+        curr_User = data[i].User;
         curr_Time.push(data[i].Time)
         curr_RAM.push(data[i].RAM)
         curr_CPU.push(data[i].CPU)
       }
-      generateGraphs(curr_Time, curr_RAM, 'myChart1', 'RAM Usage by User', 'GB', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 1)')
-      generateGraphs(curr_Time, curr_CPU, 'myChart2', 'CPU Usage by User', '%', 'rgba(0,206,209, 0.5)', 'rgba(0,206,209, 1)')
+      generateGraphs(curr_User, curr_Time, curr_RAM, 'myChart1', curr_User, 'GB', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 1)')
+      generateGraphs(curr_User, curr_Time, curr_CPU, 'myChart2', curr_User, '%', 'rgba(0,206,209, 0.5)', 'rgba(0,206,209, 1)')
     })
   }
 
-  function generateGraphs(x_axis, y_axis, id, label, units, backgroundColor, borderColor) {
+  function generateGraphs(user, x_axis, y_axis, id, label, units, backgroundColor, borderColor) {
     // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
@@ -154,11 +156,13 @@ function App() {
   return (
     <Layout className="layout">
     <Header>
+    <br/>
+    <br/>
+    <br/>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <img src={LUCID_LOGO} /> 
       </div>
     </Header>
-
     <br/>
     <br/>
     <br/>
