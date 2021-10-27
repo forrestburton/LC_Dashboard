@@ -68,7 +68,7 @@ EOF
 trap "plotGraph" SIGINT SIGTERM SIGKILL
 
 
-csv_filename="metrics.csv"
+csv_filename="./src/graphs/metrics.csv"
 
 people=$(users)
 num_users=$(./users.sh)
@@ -80,7 +80,7 @@ touch $txt_filename
 echo "Writing data to CSV file $csv_filename..."
 rm $csv_filename
 touch $csv_filename
-#echo "User,CPU,RAM" >> $csv_filename
+echo "Time,CPU,RAM" >> $csv_filename
 echo "Number of users: $num_users"
 
 num=10

@@ -6,6 +6,7 @@ import NUM_USERS from './graphs/users.txt';
 import METRICS from './graphs/metrics.csv';
 import { useEffect, useState } from 'react';
 import * as d3 from "d3";
+import $ from 'jquery';
 import {
   Chart,
   ArcElement,
@@ -63,9 +64,6 @@ Chart.register(
 const { Header, Content, Footer } = Layout;
 
 function App() {
-  const [dataTime, setDataTime] = useState([]);
-  const [dataRAM, setDataRAM] = useState([]);
-  const [dataCPU, setDataCPU] = useState([]);
 
   function getNumUsers() {
     // Read contents of users.txt, which contains the number of users on the bender 
@@ -87,72 +85,65 @@ function App() {
     rawFile.send(null);
   }
 
-  function generateGraphData() {
-    let data_Time = []
-    let data_RAM = []
-    let data_CPU = []
-
-    // Get Graph Data
-    d3.csv(METRICS, function(data) {
-      //console.log(data)
-      //console.log(data.Time)
-      let curr_time = data.Time;
-      data_Time.push(curr_time);
-
-      let curr_RAM = data.RAM;
-      data_RAM.push(parseFloat(curr_RAM));
-
-      let curr_CPU = data.CPU;
-      data_CPU.push(curr_CPU);
-    });
-    console.log(data_Time)
-    console.log(data_CPU)
-    console.log(data_RAM);
-
-    setDataTime(data_Time);
-    setDataRAM(data_RAM);
-    setDataCPU(data_CPU);
+  // Grab data from CSV file in JSON format
+  const loadDataWithPromise = () => {
+    return d3.csv(METRICS)
   }
 
-  function generateGraphs() {
-    // Create Graphs
-    const ctx = document.getElementById('myChart').getContext('2d');
+  // Store JSON data into arrays
+  async function generateGraphData() {
+    loadDataWithPromise().then((data) => {
+      console.log('Data loaded from loadDataWithPromise')
+      console.log(data)
+      
+      let curr_RAM = []
+      let curr_CPU = []
+      let curr_Time = []
+      
+      for (let i = 0; i < data.length; i++) {
+        curr_Time.push(data[i].Time)
+        curr_RAM.push(data[i].RAM)
+        curr_CPU.push(data[i].CPU)
+      }
+      generateGraphs(curr_Time, curr_RAM, 'myChart1')
+      generateGraphs(curr_Time, curr_CPU, 'myChart2')
+    })
+  }
 
-    if(window.myChart1 != null){
-      window.myChart1.destroy();
-    }
+  function generateGraphs(x_axis, y_axis, id, label) {
+    // Create Graphs
+    const ctx = document.getElementById(id).getContext('2d');
+
+    // if(window.myChart1 != null){
+    //   window.myChart1.destroy();
+    // }
     
-    if (dataRAM.length > 0) {
-      window.myChart1 = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [0,1,2,3,4,5,6,7,8,9,10],  // x-axis
-            datasets: [{
-                label: 'RAM Usage by User',
-                data: dataRAM,  //y-axis
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                      // Include a dollar sign in the ticks
-                      callback: function(value, index, values) {
-                          return value + ' GB';
-                      }
-                  }
+    window.myChart1 = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: x_axis,  // x-axis
+          datasets: [{
+              label: 'RAM Usage by User',
+              data: y_axis,  //y-axis
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, values) {
+                        return value + ' GB';
+                    }
                 }
-            }
+              }
           }
-      });
-    }
-    else {
-      console.log("Data not fully loaded")
-    }
+        }
+    });
   }
 
   useEffect(async() => {      
@@ -160,14 +151,6 @@ function App() {
     generateGraphData();
   });
 
-
-  if (dataRAM.length > 0) {
-    generateGraphs();
-    //return ..
-  }
-  else {
-    //return...
-  }
   return (
     <Layout className="layout">
     <Header>
@@ -175,6 +158,7 @@ function App() {
         <img src={LUCID_LOGO} /> 
       </div>
     </Header>
+
     <br/>
     <br/>
     <br/>
@@ -186,15 +170,22 @@ function App() {
       <br/>
       <div className="site-layout-content">
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h2>RAM Usage:  </h2>
-          <canvas id="myChart" style={{ width: "100%", height: "100%" }}></canvas>
+          <h2>RAM Usage:&nbsp; </h2>
+          <canvas id="myChart1" style={{ width: "100%", height: "100%" }}></canvas>
           {/* <img src={RAM_GRAPH} style={{ width: 800}} />  */}
         </div>
+        <br/>
+        <br/>
+        <br/>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h2>CPU Usage:  </h2> 
-          <img src={CPU_GRAPH} style={{ width: 800}} />
+          <h2>CPU Usage:&nbsp;  </h2> 
+          <canvas id="myChart2" style={{ width: "100%", height: "100%" }}></canvas>
+          {/* <img src={CPU_GRAPH} style={{ width: 800}} /> */}
         </div>
       </div>
+      <br/>
+      <br/>
+      <br/>
       <hr/>
       <br/>
       <br/>
