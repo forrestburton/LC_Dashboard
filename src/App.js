@@ -102,17 +102,45 @@ function App() {
       var user_Num = 0;
       let RAM_dataset = []
       let CPU_dataset = []
+      var backColor;
+      var bordColor;
 
       for (let i = 0; i < data.length; i++) {
         var user = data[i].User;  // get current user
+        switch (user_Num) {  // Can assume 6 benders for now 
+          case 0:
+            backColor = 'rgba(255, 99, 132, 0.5)';
+            bordColor = 'rgba(255, 99, 132, 1)';
+            break
+          case 1:
+            backColor = 'rgba(0, 206, 209, 0.5)';
+            bordColor = 'rgba(0, 206, 209, 1)';
+            break
+          case 2:
+            backColor = 'rgba(102,167,197, 0.5)';
+            bordColor = 'rgba(102,167,197, 1)';
+            break
+          case 3:
+            backColor = 'rgba(182, 119, 33, 0.5)';
+            bordColor = 'rgba(182, 119, 33, 1)';
+            break
+          case 4:
+            backColor = 'rgba(191, 122, 160, 0.5)';
+            bordColor = 'rgba(191, 122, 160, 1)';
+            break
+          case 5:
+            backColor = 'rgba(0, 0, 0, 0.5)';
+            bordColor = 'rgba(0, 0, 0, 1)';
+            break
+        }
 
         if (i !== 0 && user != curr_User[user_Num]) {  // determine if this is a new user, and therefore a new dataset
           RAM_dataset.push(  // push RAM data for this user
             {
               label: curr_User[user_Num],  // name of user
               data: curr_RAM,  //y-axis
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
-              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: backColor,
+              borderColor: bordColor,
               borderWidth: 1
             }
           )
@@ -120,8 +148,8 @@ function App() {
             {
               label: curr_User[user_Num],  // name of user
               data: curr_CPU,  //y-axis
-              backgroundColor: 'rgba(0,206,209, 0.5)',
-              borderColor: 'rgba(0,206,209, 1)',
+              backgroundColor: backColor,
+              borderColor: bordColor,
               borderWidth: 1
             }
           )
@@ -137,14 +165,14 @@ function App() {
         curr_RAM.push(data[i].RAM)
         curr_CPU.push(data[i].CPU)
       }
-      
+
       // Push data one more time for last iteration 
       RAM_dataset.push(  // push RAM data for this user
         {
           label: curr_User[user_Num],  // name of user
           data: curr_RAM,  //y-axis
-          backgroundColor: 'rgba(255, 99, 132, 0.5)',
-          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: backColor,
+          borderColor: bordColor,
           borderWidth: 1
         }
       )
@@ -152,8 +180,8 @@ function App() {
         {
           label: curr_User[user_Num],  // name of user
           data: curr_CPU,  //y-axis
-          backgroundColor: 'rgba(0,206,209, 0.5)',
-          borderColor: 'rgba(0,206,209, 1)',
+          backgroundColor: backColor,
+          borderColor: bordColor,
           borderWidth: 1
         }
       )
