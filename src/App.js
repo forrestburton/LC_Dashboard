@@ -105,12 +105,12 @@ function App() {
         curr_RAM.push(data[i].RAM)
         curr_CPU.push(data[i].CPU)
       }
-      generateGraphs(curr_Time, curr_RAM, 'myChart1')
-      generateGraphs(curr_Time, curr_CPU, 'myChart2')
+      generateGraphs(curr_Time, curr_RAM, 'myChart1', 'RAM Usage by User', 'GB', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 1)')
+      generateGraphs(curr_Time, curr_CPU, 'myChart2', 'CPU Usage by User', '%', 'rgba(0,206,209, 0.5)', 'rgba(0,206,209, 1)')
     })
   }
 
-  function generateGraphs(x_axis, y_axis, id, label) {
+  function generateGraphs(x_axis, y_axis, id, label, units, backgroundColor, borderColor) {
     // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
@@ -123,10 +123,10 @@ function App() {
       data: {
           labels: x_axis,  // x-axis
           datasets: [{
-              label: 'RAM Usage by User',
+              label: label,
               data: y_axis,  //y-axis
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
-              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
               borderWidth: 1
           }]
       },
@@ -137,7 +137,7 @@ function App() {
                   ticks: {
                     // Include a dollar sign in the ticks
                     callback: function(value, index, values) {
-                        return value + ' GB';
+                        return value + units;
                     }
                 }
               }
