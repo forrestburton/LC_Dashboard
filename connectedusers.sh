@@ -1,0 +1,1 @@
+sudo ../../../../etc/NX/nxserver --history | grep Connected | awk '{if ($9 == "xsession-gnome" || $9 == "xsession-1-kde-plasma-standard") print $2}'
