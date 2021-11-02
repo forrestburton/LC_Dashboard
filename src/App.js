@@ -2,7 +2,8 @@ import { Layout } from 'antd';
 //import RAM_GRAPH from './graphs/ram.png';
 //import CPU_GRAPH from './graphs/cpu.png';
 import LUCID_LOGO from './graphs/logo.png';
-import METRICS from './graphs/metrics-forrest.csv';
+import METRICS_0 from './graphs/metrics-bender-0.lucid.local.csv';
+import METRICS_1 from './graphs/metrics-bender-1.lucid.local.csv';
 import NUM_USERS from './graphs/users.txt';
 import { useEffect } from 'react';
 import * as d3 from "d3";
@@ -78,20 +79,20 @@ function App() {
     rawFile.send(null);
   }
 
-  const loadGraphDataWithPromise = () => {  // Grab data from CSV file in JSON format
-    return d3.csv(METRICS)
+  const loadGraphDataWithPromise = (metrics) => {  // Grab data from CSV file in JSON format
+    return d3.csv(metrics)
   }
 
-  async function generateGraphData() {  // Store JSON data into arrays
-    loadGraphDataWithPromise().then((data) => { 
+  async function generateGraphData(metrics, firstChartID, secondChartID) {  // Store JSON data into arrays
+    loadGraphDataWithPromise(metrics).then((data) => { 
       import("./graph").then(graph => {
         let graphData = graph.processGraphData(data);
         let allUserRamUsage = graphData[0]
         let allUserCpuUsage = graphData[1]
         let currentTimePeriod = graphData[2]
 
-        generateGraphs(allUserRamUsage, currentTimePeriod, 'myChart1', 'GB');
-        generateGraphs(allUserCpuUsage, currentTimePeriod, 'myChart2', '%');
+        generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB');
+        generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%');
       });
     })
   }
@@ -126,8 +127,9 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-        await getNumUsers();
-        await generateGraphData();
+        await getNumUsers();  //bender 0
+        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu');
+        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu');
       }
       fetchData();
     },
@@ -136,45 +138,49 @@ function App() {
   return (
     <Layout className="layout">
     <Header>
-    <br/>
-    <br/>
-    <br/>
+      <div style={{ height: '75px' }}></div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <img src={LUCID_LOGO} alt="Loading"/> 
       </div>
     </Header>
-    <br/>
-    <br/>
-    <br/>
+    <div style={{ height: '75px' }}></div>
     <Content style={{ padding: '0 200px' }}>
       <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: "20px"}}><b style={{ fontSize: "35px"}}> Bender 0&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
       <hr/>
-      <br/>
-      <br/>
-      <br/>
+      <div style={{ height: '50px' }}></div>
       <div className="site-layout-content">
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <h2>RAM Usage:&nbsp; </h2>
-          <canvas id="myChart1" style={{ width: "100%", height: "100%" }}></canvas>
+          <canvas id="bender0ram" style={{ width: "100%", height: "100%" }}></canvas>
           {/* <img src={RAM_GRAPH} style={{ width: 800}} />  */}
         </div>
-        <br/>
-        <br/>
-        <br/>
+        <div style={{ height: '75px' }}></div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <h2>CPU Usage:&nbsp;  </h2> 
-          <canvas id="myChart2" style={{ width: "100%", height: "100%" }}></canvas>
+          <canvas id="bender0cpu" style={{ width: "100%", height: "100%" }}></canvas>
           {/* <img src={CPU_GRAPH} style={{ width: 800}} /> */}
         </div>
       </div>
-      <br/>
-      <br/>
-      <br/>
+      <div style={{ height: '150px' }}></div>
+      <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: "20px"}}><b style={{ fontSize: "35px"}}> Bender 1&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
       <hr/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+      <div style={{ height: '50px' }}></div>
+      <div className="site-layout-content">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <h2>RAM Usage:&nbsp; </h2>
+          <canvas id="bender1ram" style={{ width: "100%", height: "100%" }}></canvas>
+          {/* <img src={RAM_GRAPH} style={{ width: 800}} />  */}
+        </div>
+        <div style={{ height: '75px' }}></div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <h2>CPU Usage:&nbsp;  </h2> 
+          <canvas id="bender1cpu" style={{ width: "100%", height: "100%" }}></canvas>
+          {/* <img src={CPU_GRAPH} style={{ width: 800}} /> */}
+        </div>
+        <div style={{ height: '50px' }}></div>
+        <hr/>
+        <div style={{ height: '75px' }}></div>
+      </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Lucid Circuit ©2021 Created by Forrest Burton</Footer>
   </Layout>
