@@ -1,6 +1,6 @@
 import { pointColorScheme, lineColorScheme } from './utils.js'
 
-export function processGraphData (data) {
+export function processGraphData (data) {  // Store JSON data into arrays
     let currentUsersOnline = [];
       let currentRamUsage = [];
       let currentCpuUsage = [];
@@ -11,13 +11,11 @@ export function processGraphData (data) {
       var pointColor;
       var lineColor;
 
-      // Color scheme for graphs
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {   
         var user = data[i].User;  // get current user
         pointColor = pointColorScheme[numberOfUsers];
         lineColor = lineColorScheme[numberOfUsers];
 
-         // Store JSON data into arrays
         if (i !== 0 && user !== currentUsersOnline[numberOfUsers]) {  // determine if this is a new user, and therefore a new dataset
           allUserRamUsage.push(  // push RAM data for this user
             {
@@ -39,8 +37,7 @@ export function processGraphData (data) {
           )
           numberOfUsers += 1;
 
-          // clear datasets for next user
-          currentRamUsage = [];
+          currentRamUsage = [];  // clear datasets for next user
           currentCpuUsage = [];
         }
         currentUsersOnline[numberOfUsers] = user;
@@ -49,20 +46,19 @@ export function processGraphData (data) {
         currentCpuUsage.push(data[i].CPU);
       }
 
-      // Push data one more time for last iteration 
-      allUserRamUsage.push(  // push RAM data for this user
+      allUserRamUsage.push(  // Push data one more time for last iteration 
         {
-          label: currentUsersOnline[numberOfUsers],  // name of user
-          data: currentRamUsage,  //y-axis
+          label: currentUsersOnline[numberOfUsers],  
+          data: currentRamUsage,  
           backgroundColor: pointColor,
           borderColor: lineColor,
           borderWidth: 1
         }
       )
-      allUserCpuUsage.push(  // push CPU data for this user
+      allUserCpuUsage.push(  
         {
-          label: currentUsersOnline[numberOfUsers],  // name of user
-          data: currentCpuUsage,  //y-axis
+          label: currentUsersOnline[numberOfUsers],  
+          data: currentCpuUsage,  
           backgroundColor: pointColor,
           borderColor: lineColor,
           borderWidth: 1

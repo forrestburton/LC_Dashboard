@@ -64,8 +64,7 @@ Chart.register(
 const { Header, Content, Footer } = Layout;
 
 function App() {
-  function getNumUsers() {
-    // Read contents of users.txt, which contains the number of users on the bender 
+  function getNumUsers() {  // Read contents of users.txt, which contains the number of users on the bender 
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", NUM_USERS, false);
     rawFile.onreadystatechange = function () {
@@ -79,13 +78,11 @@ function App() {
     rawFile.send(null);
   }
 
-  // Grab data from CSV file in JSON format
-  const loadGraphDataWithPromise = () => {
+  const loadGraphDataWithPromise = () => {  // Grab data from CSV file in JSON format
     return d3.csv(METRICS)
   }
 
-  // Store JSON data into arrays
-  async function generateGraphData() {
+  async function generateGraphData() {  // Store JSON data into arrays
     loadGraphDataWithPromise().then((data) => { 
       import("./graph").then(graph => {
         let graphData = graph.processGraphData(data);
@@ -99,8 +96,7 @@ function App() {
     })
   }
 
-  function generateGraphs(dataset, xAxis, id, units) {
-    // Create Graphs
+  function generateGraphs(dataset, xAxis, id, units) {  // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
     // if(window.myChart1 != null){
