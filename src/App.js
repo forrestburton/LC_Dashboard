@@ -60,7 +60,25 @@ Chart.register(
   Tooltip,
   SubTitle
 );
+
 const { Header, Content, Footer } = Layout;
+
+const pointColorScheme = {
+  0: 'rgba(255, 99, 132, 0.5)',
+  1: 'rgba(0, 206, 209, 0.5)',
+  2: 'rgba(102,167,197, 0.5)',
+  3: 'rgba(182, 119, 33, 0.5)',
+  4: 'rgba(191, 122, 160, 0.5)',
+  5: 'rgba(0, 0, 0, 0.5)'
+}
+const lineColorScheme = {
+  0: 'rgba(255, 99, 132, 1)',
+  1: 'rgba(0, 206, 209, 1)',
+  2: 'rgba(102,167,197, 1)',
+  3: 'rgba(182, 119, 33, 1)',
+  4: 'rgba(191, 122, 160,1)',
+  5: 'rgba(0, 0, 0, 1)'
+}
 
 function App() {
 
@@ -105,36 +123,8 @@ function App() {
       // Color scheme for graphs
       for (let i = 0; i < data.length; i++) {
         var user = data[i].User;  // get current user
-        switch (numberOfUsers) {  // Can assume 6 benders for now 
-          case 0:
-            pointColor = 'rgba(255, 99, 132, 0.5)';
-            lineColor = 'rgba(255, 99, 132, 1)';
-            break;
-          case 1:
-            pointColor = 'rgba(0, 206, 209, 0.5)';
-            lineColor = 'rgba(0, 206, 209, 1)';
-            break;
-          case 2:
-            pointColor = 'rgba(102,167,197, 0.5)';
-            lineColor = 'rgba(102,167,197, 1)';
-            break;
-          case 3:
-            pointColor = 'rgba(182, 119, 33, 0.5)';
-            lineColor = 'rgba(182, 119, 33, 1)';
-            break;
-          case 4:
-            pointColor = 'rgba(191, 122, 160, 0.5)';
-            lineColor = 'rgba(191, 122, 160, 1)';
-            break;
-          case 5:
-            pointColor = 'rgba(0, 0, 0, 0.5)';
-            lineColor = 'rgba(0, 0, 0, 1)';
-            break;
-          default:
-            pointColor = 'rgba(0, 0, 0, 0.5)';
-            lineColor = 'rgba(0, 0, 0, 1)';
-            break;
-        }
+        pointColor = pointColorScheme[numberOfUsers];
+        lineColor = lineColorScheme[numberOfUsers];
 
          // Store JSON data into arrays
         if (i !== 0 && user !== currentUsersOnline[numberOfUsers]) {  // determine if this is a new user, and therefore a new dataset
@@ -156,16 +146,16 @@ function App() {
               borderWidth: 1
             }
           )
-          numberOfUsers += 1
+          numberOfUsers += 1;
 
           // clear datasets for next user
-          currentRamUsage = []
-          currentCpuUsage = []
+          currentRamUsage = [];
+          currentCpuUsage = [];
         }
         currentUsersOnline[numberOfUsers] = user;
-        currentTimePeriod.push(data[i].Time)
-        currentRamUsage.push(data[i].RAM)
-        currentCpuUsage.push(data[i].CPU)
+        currentTimePeriod.push(data[i].Time);
+        currentRamUsage.push(data[i].RAM);
+        currentCpuUsage.push(data[i].CPU);
       }
 
       // Push data one more time for last iteration 
@@ -190,8 +180,8 @@ function App() {
       //console.log("PRINTING RAM: ")
       //console.log(allUserRamUsage)
 
-      generateGraphs(allUserRamUsage, currentTimePeriod, 'myChart1', 'GB')
-      generateGraphs(allUserCpuUsage, currentTimePeriod, 'myChart2', '%')
+      generateGraphs(allUserRamUsage, currentTimePeriod, 'myChart1', 'GB');
+      generateGraphs(allUserCpuUsage, currentTimePeriod, 'myChart2', '%');
     })
   }
 
