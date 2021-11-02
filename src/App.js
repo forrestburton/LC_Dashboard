@@ -68,16 +68,11 @@ function App() {
     // Read contents of users.txt, which contains the number of users on the bender 
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", NUM_USERS, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status === 0)
-            {
-                var numberofUsers = rawFile.responseText;
-                //console.log(allText);
-                document.getElementById('output').textContent=numberofUsers;  // Set number of users in HTML
-                
+    rawFile.onreadystatechange = function () {
+        if(rawFile.readyState === 4) {
+            if(rawFile.status === 200 || rawFile.status === 0) {
+                var numberOfUsers = rawFile.responseText;
+                document.getElementById('output').textContent=numberOfUsers;  // Set number of users in HTML
             }
         }
     }
@@ -91,7 +86,6 @@ function App() {
 
   // Store JSON data into arrays
   async function generateGraphData() {
-
     loadGraphDataWithPromise().then((data) => { 
       import("./graph").then(graph => {
         let graphData = graph.processGraphData(data);
