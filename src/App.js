@@ -2,7 +2,7 @@ import { Layout } from 'antd';
 //import RAM_GRAPH from './graphs/ram.png';
 //import CPU_GRAPH from './graphs/cpu.png';
 import LUCID_LOGO from './graphs/logo.png';
-import METRICS from './graphs/metrics.csv';
+import METRICS from './graphs/metrics-forrest.csv';
 import NUM_USERS from './graphs/users.txt';
 import { useEffect } from 'react';
 import * as d3 from "d3";
@@ -70,8 +70,8 @@ function App() {
     rawFile.onreadystatechange = function () {
         if(rawFile.readyState === 4) {
             if(rawFile.status === 200 || rawFile.status === 0) {
-                var numberOfUsers = rawFile.responseText;
-                document.getElementById('output').textContent=numberOfUsers;  // Set number of users in HTML
+              var numberOfUsers = rawFile.responseText;
+              document.getElementById('output').textContent=numberOfUsers;  // Set number of users in HTML
             }
         }
     }
@@ -126,11 +126,12 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      await getNumUsers();
-      await generateGraphData();
-    }
-    fetchData();
-  },); 
+        await getNumUsers();
+        await generateGraphData();
+      }
+      fetchData();
+    },
+  ); 
 
   return (
     <Layout className="layout">

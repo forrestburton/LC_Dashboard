@@ -1,0 +1,17 @@
+forrest 4162
+clamav 1168
+root 692
+naimul 273
+systemd-coredump 154
+nx 154
+postgres 65
+whoopsie 13
+colord 13
+systemd-resolve 12
+lp 12
+messagebus 7
+systemd-timesync 5
+syslog 5
+avahi 4
+rtkit 3
+kernoops 1

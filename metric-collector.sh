@@ -1,4 +1,5 @@
 own=$(id -nu)
+machine=$(hostname)
 function plotGraph() {
   # bring cursor to next line after interrupt
   echo
@@ -68,7 +69,7 @@ EOF
 trap "plotGraph" SIGINT SIGTERM SIGKILL
 
 
-csv_filename="./src/graphs/metrics.csv"
+csv_filename="./src/graphs/metrics-${machine}.csv"
 
 people=$(users)
 num_users=$(./users.sh)
@@ -84,7 +85,7 @@ echo "User,Time,CPU,RAM" >> $csv_filename
 echo "Number of users: $num_users"
 
 num=10
-time=5
+time=1
 for user in $people
 do 
     #echo "$user" >> $csv_filename
