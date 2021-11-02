@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
-import RAM_GRAPH from './graphs/ram.png';
-import CPU_GRAPH from './graphs/cpu.png';
+//import RAM_GRAPH from './graphs/ram.png';
+//import CPU_GRAPH from './graphs/cpu.png';
 import LUCID_LOGO from './graphs/logo.png';
 import NUM_USERS from './graphs/users.txt';
 import METRICS from './graphs/metrics.csv';
@@ -72,10 +72,10 @@ function App() {
     {
         if(rawFile.readyState === 4)
         {
-            if(rawFile.status === 200 || rawFile.status == 0)
+            if(rawFile.status === 200 || rawFile.status === 0)
             {
                 var allText = rawFile.responseText;
-                console.log(allText);
+                //console.log(allText);
                 document.getElementById('output').textContent=allText;  // Set number of users in HTML
                 
             }
@@ -85,115 +85,117 @@ function App() {
   }
 
   // Grab data from CSV file in JSON format
-  const loadDataWithPromise = () => {
+  const loadGraphDataWithPromise = () => {
     return d3.csv(METRICS)
   }
 
   // Store JSON data into arrays
   async function generateGraphData() {
-    loadDataWithPromise().then((data) => {
-      console.log('Data loaded from loadDataWithPromise')
-      console.log(data)
-      
-      var curr_User = []
-      let curr_RAM = []
-      let curr_CPU = []
-      let curr_Time = []
-      var user_Num = 0;
-      let RAM_dataset = []
-      let CPU_dataset = []
-      var backColor;
-      var bordColor;
+    loadGraphDataWithPromise().then((data) => { 
+      let currentUsersOnline = [];
+      let currentRamUsage = [];
+      let currentCpuUsage = [];
+      let currentTimePeriod = [];
+      let allUserRamUsage = [];
+      let allUserCpuUsage = [];
+      let numberOfUsers = 0;
+      var pointColor;
+      var lineColor;
 
+      // Color scheme for graphs
       for (let i = 0; i < data.length; i++) {
         var user = data[i].User;  // get current user
-        switch (user_Num) {  // Can assume 6 benders for now 
+        switch (numberOfUsers) {  // Can assume 6 benders for now 
           case 0:
-            backColor = 'rgba(255, 99, 132, 0.5)';
-            bordColor = 'rgba(255, 99, 132, 1)';
-            break
+            pointColor = 'rgba(255, 99, 132, 0.5)';
+            lineColor = 'rgba(255, 99, 132, 1)';
+            break;
           case 1:
-            backColor = 'rgba(0, 206, 209, 0.5)';
-            bordColor = 'rgba(0, 206, 209, 1)';
-            break
+            pointColor = 'rgba(0, 206, 209, 0.5)';
+            lineColor = 'rgba(0, 206, 209, 1)';
+            break;
           case 2:
-            backColor = 'rgba(102,167,197, 0.5)';
-            bordColor = 'rgba(102,167,197, 1)';
-            break
+            pointColor = 'rgba(102,167,197, 0.5)';
+            lineColor = 'rgba(102,167,197, 1)';
+            break;
           case 3:
-            backColor = 'rgba(182, 119, 33, 0.5)';
-            bordColor = 'rgba(182, 119, 33, 1)';
-            break
+            pointColor = 'rgba(182, 119, 33, 0.5)';
+            lineColor = 'rgba(182, 119, 33, 1)';
+            break;
           case 4:
-            backColor = 'rgba(191, 122, 160, 0.5)';
-            bordColor = 'rgba(191, 122, 160, 1)';
-            break
+            pointColor = 'rgba(191, 122, 160, 0.5)';
+            lineColor = 'rgba(191, 122, 160, 1)';
+            break;
           case 5:
-            backColor = 'rgba(0, 0, 0, 0.5)';
-            bordColor = 'rgba(0, 0, 0, 1)';
-            break
+            pointColor = 'rgba(0, 0, 0, 0.5)';
+            lineColor = 'rgba(0, 0, 0, 1)';
+            break;
+          default:
+            pointColor = 'rgba(0, 0, 0, 0.5)';
+            lineColor = 'rgba(0, 0, 0, 1)';
+            break;
         }
 
-        if (i !== 0 && user != curr_User[user_Num]) {  // determine if this is a new user, and therefore a new dataset
-          RAM_dataset.push(  // push RAM data for this user
+         // Store JSON data into arrays
+        if (i !== 0 && user !== currentUsersOnline[numberOfUsers]) {  // determine if this is a new user, and therefore a new dataset
+          allUserRamUsage.push(  // push RAM data for this user
             {
-              label: curr_User[user_Num],  // name of user
-              data: curr_RAM,  //y-axis
-              backgroundColor: backColor,
-              borderColor: bordColor,
+              label: currentUsersOnline[numberOfUsers],  // name of user
+              data: currentRamUsage,  //y-axis
+              backgroundColor: pointColor,
+              borderColor: lineColor,
               borderWidth: 1
             }
           )
-          CPU_dataset.push(  // push CPU data for this user
+          allUserCpuUsage.push(  // push CPU data for this user
             {
-              label: curr_User[user_Num],  // name of user
-              data: curr_CPU,  //y-axis
-              backgroundColor: backColor,
-              borderColor: bordColor,
+              label: currentUsersOnline[numberOfUsers],  // name of user
+              data: currentCpuUsage,  //y-axis
+              backgroundColor: pointColor,
+              borderColor: lineColor,
               borderWidth: 1
             }
           )
-          user_Num += 1
+          numberOfUsers += 1
 
           // clear datasets for next user
-          curr_RAM = []
-          curr_CPU = []
-          // curr_Time = []
+          currentRamUsage = []
+          currentCpuUsage = []
         }
-        curr_User[user_Num] = user;
-        curr_Time.push(data[i].Time)
-        curr_RAM.push(data[i].RAM)
-        curr_CPU.push(data[i].CPU)
+        currentUsersOnline[numberOfUsers] = user;
+        currentTimePeriod.push(data[i].Time)
+        currentRamUsage.push(data[i].RAM)
+        currentCpuUsage.push(data[i].CPU)
       }
 
       // Push data one more time for last iteration 
-      RAM_dataset.push(  // push RAM data for this user
+      allUserRamUsage.push(  // push RAM data for this user
         {
-          label: curr_User[user_Num],  // name of user
-          data: curr_RAM,  //y-axis
-          backgroundColor: backColor,
-          borderColor: bordColor,
+          label: currentUsersOnline[numberOfUsers],  // name of user
+          data: currentRamUsage,  //y-axis
+          backgroundColor: pointColor,
+          borderColor: lineColor,
           borderWidth: 1
         }
       )
-      CPU_dataset.push(  // push CPU data for this user
+      allUserCpuUsage.push(  // push CPU data for this user
         {
-          label: curr_User[user_Num],  // name of user
-          data: curr_CPU,  //y-axis
-          backgroundColor: backColor,
-          borderColor: bordColor,
+          label: currentUsersOnline[numberOfUsers],  // name of user
+          data: currentCpuUsage,  //y-axis
+          backgroundColor: pointColor,
+          borderColor: lineColor,
           borderWidth: 1
         }
       )
-      console.log("PRINTING RAM: ")
-      console.log(RAM_dataset)
+      //console.log("PRINTING RAM: ")
+      //console.log(allUserRamUsage)
 
-      generateGraphs(RAM_dataset, curr_Time, 'myChart1', 'GB')
-      generateGraphs(CPU_dataset, curr_Time, 'myChart2', '%')
+      generateGraphs(allUserRamUsage, currentTimePeriod, 'myChart1', 'GB')
+      generateGraphs(allUserCpuUsage, currentTimePeriod, 'myChart2', '%')
     })
   }
 
-  function generateGraphs(dataset, x_axis, id, units) {
+  function generateGraphs(dataset, xAxis, id, units) {
     // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
@@ -204,7 +206,7 @@ function App() {
     window.myChart1 = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: x_axis,  // x-axis
+        labels: xAxis,  // x-axis
         datasets: dataset
       },
       options: {
@@ -212,7 +214,6 @@ function App() {
               y: {
                   beginAtZero: true,
                   ticks: {
-                    // Include a dollar sign in the ticks
                     callback: function(value, index, values) {
                         return value + units;
                     }
@@ -223,10 +224,13 @@ function App() {
     });
   }
 
-  useEffect(async() => {      
-    getNumUsers();
-    generateGraphData();
-  });
+  useEffect(() => {
+    async function fetchData() {
+      await getNumUsers();
+      await generateGraphData();
+    }
+    fetchData();
+  },); 
 
   return (
     <Layout className="layout">
@@ -235,7 +239,7 @@ function App() {
     <br/>
     <br/>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <img src={LUCID_LOGO} /> 
+        <img src={LUCID_LOGO} alt="Loading"/> 
       </div>
     </Header>
     <br/>
