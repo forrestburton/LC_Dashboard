@@ -7,6 +7,7 @@ import METRICS_1 from './graphs/metrics-bender-1.lucid.local.csv';
 import NUM_USERS from './graphs/users.txt';
 import { useEffect } from 'react';
 import * as d3 from "d3";
+import "./App.css";
 import {
   Chart,
   ArcElement,
@@ -83,7 +84,7 @@ function App() {
     return d3.csv(metrics)
   }
 
-  async function generateGraphData(metrics, firstChartID, secondChartID) {  // Store JSON data into arrays
+  async function generateGraphData(metrics, firstChartID, secondChartID) {  // Store JSON data into arrays (using graph.js functions)
     loadGraphDataWithPromise(metrics).then((data) => { 
       import("./graph").then(graph => {
         let graphData = graph.processGraphData(data);
@@ -91,8 +92,8 @@ function App() {
         let allUserCpuUsage = graphData[1]
         let currentTimePeriod = graphData[2]
 
-        generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB');
-        generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%');
+        generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB');  // RAM Usage Graph
+        generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%');  // CPU Usage Graph
       });
     })
   }
@@ -128,8 +129,8 @@ function App() {
   useEffect(() => {
     async function fetchData() {
         await getNumUsers();  //bender 0
-        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu');
-        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu');
+        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu');  // bender 0 
+        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu');  // bender 1
       }
       fetchData();
     },
@@ -137,49 +138,48 @@ function App() {
 
   return (
     <Layout className="layout">
+    <head>
+      <title>Lucid Circuits Dashboard</title>
+    </head>
     <Header>
-      <div style={{ height: '75px' }}></div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <div id="med-div"></div>
+      <div id="centered-div">
         <img src={LUCID_LOGO} alt="Loading"/> 
       </div>
     </Header>
-    <div style={{ height: '75px' }}></div>
+    <div id="med-div"></div>
     <Content style={{ padding: '0 200px' }}>
-      <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: "20px"}}><b style={{ fontSize: "35px"}}> Bender 0&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 0&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
       <hr/>
-      <div style={{ height: '50px' }}></div>
+      <div id="small-div"></div>
       <div className="site-layout-content">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h2>RAM Usage:&nbsp; </h2>
+        <div id="centered-div">
+          <h2>RAM Usage:&nbsp;</h2>
           <canvas id="bender0ram" style={{ width: "100%", height: "100%" }}></canvas>
-          {/* <img src={RAM_GRAPH} style={{ width: 800}} />  */}
         </div>
-        <div style={{ height: '75px' }}></div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h2>CPU Usage:&nbsp;  </h2> 
+        <div id="med-div"></div>
+        <div id="centered-div">
+          <h2>CPU Usage:&nbsp;</h2> 
           <canvas id="bender0cpu" style={{ width: "100%", height: "100%" }}></canvas>
-          {/* <img src={CPU_GRAPH} style={{ width: 800}} /> */}
         </div>
       </div>
-      <div style={{ height: '150px' }}></div>
-      <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: "20px"}}><b style={{ fontSize: "35px"}}> Bender 1&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <div id="big-div"></div>
+      <span id="bender-title"><b> Bender 1&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
       <hr/>
-      <div style={{ height: '50px' }}></div>
+      <div id="small-div"></div>
       <div className="site-layout-content">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h2>RAM Usage:&nbsp; </h2>
+        <div id="centered-div">
+          <h2>RAM Usage:&nbsp;</h2>
           <canvas id="bender1ram" style={{ width: "100%", height: "100%" }}></canvas>
-          {/* <img src={RAM_GRAPH} style={{ width: 800}} />  */}
         </div>
-        <div style={{ height: '75px' }}></div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h2>CPU Usage:&nbsp;  </h2> 
+        <div id="med-div"></div>
+        <div id="centered-div">
+          <h2>CPU Usage:&nbsp;</h2> 
           <canvas id="bender1cpu" style={{ width: "100%", height: "100%" }}></canvas>
-          {/* <img src={CPU_GRAPH} style={{ width: 800}} /> */}
         </div>
-        <div style={{ height: '50px' }}></div>
+        <div id="small-div"></div>
         <hr/>
-        <div style={{ height: '75px' }}></div>
+        <div id="med-div"></div>
       </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Lucid Circuit ©2021 Created by Forrest Burton</Footer>
