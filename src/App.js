@@ -4,10 +4,15 @@ import { Layout } from 'antd';
 import LUCID_LOGO from './graphs/logo.png';
 import METRICS_0 from './graphs/metrics-bender-0.lucid.local.csv';
 import METRICS_1 from './graphs/metrics-bender-1.lucid.local.csv';
+import METRICS_2 from './graphs/metrics-bender-2.lucid.local.csv';
+import METRICS_3 from './graphs/metrics-bender-3.lucid.local.csv';
+import METRICS_4 from './graphs/metrics-bender-4.lucid.local.csv';
+import METRICS_5 from './graphs/metrics-bender-5.lucid.local.csv';
 import NUM_USERS from './graphs/users.txt';
 import { useEffect } from 'react';
 import * as d3 from "d3";
 import "./App.css";
+
 import {
   Chart,
   ArcElement,
@@ -66,7 +71,21 @@ Chart.register(
 const { Header, Content, Footer } = Layout;
 
 function App() {
-  function getNumUsers() {  // Read contents of users.txt, which contains the number of users on the bender 
+  useEffect(() => {
+    async function fetchData() {
+        await getNumUsers();  // bender 0 number of users
+        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu');  // bender 0 graphs
+        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu');  // bender 1 graphs
+        await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu');  // bender 2 graphs
+        await generateGraphData(METRICS_3, 'bender3ram', 'bender3cpu');  // bender 3 graphs
+        await generateGraphData(METRICS_4, 'bender4ram', 'bender4cpu');  // bender 4 graphs
+        await generateGraphData(METRICS_5, 'bender5ram', 'bender5cpu');  // bender 5 graphs
+      }
+      fetchData();
+    },
+  ); 
+
+  function getNumUsers() {  // Read contents of users{x}.txt, which contains the number of users on bender x
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", NUM_USERS, false);
     rawFile.onreadystatechange = function () {
@@ -126,16 +145,6 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    async function fetchData() {
-        await getNumUsers();  //bender 0
-        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu');  // bender 0 
-        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu');  // bender 1
-      }
-      fetchData();
-    },
-  ); 
-
   return (
     <Layout className="layout">
     <head>
@@ -164,6 +173,8 @@ function App() {
         </div>
       </div>
       <div id="big-div"></div>
+      
+      
       <span id="bender-title"><b> Bender 1&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
@@ -177,12 +188,80 @@ function App() {
           <h2>CPU Usage:&nbsp;</h2> 
           <canvas id="bender1cpu" style={{ width: "100%", height: "100%" }}></canvas>
         </div>
+      </div>
+      <div id="big-div"></div>
+
+      
+      <span id="bender-title"><b> Bender 2&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <hr/>
+      <div id="small-div"></div>
+      <div className="site-layout-content">
+        <div id="centered-div">
+          <h2>RAM Usage:&nbsp;</h2>
+          <canvas id="bender2ram" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+        <div id="med-div"></div>
+        <div id="centered-div">
+          <h2>CPU Usage:&nbsp;</h2> 
+          <canvas id="bender2cpu" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+      </div>
+      <div id="big-div"></div>
+
+
+      <span id="bender-title"><b> Bender 3&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <hr/>
+      <div id="small-div"></div>
+      <div className="site-layout-content">
+        <div id="centered-div">
+          <h2>RAM Usage:&nbsp;</h2>
+          <canvas id="bender3ram" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+        <div id="med-div"></div>
+        <div id="centered-div">
+          <h2>CPU Usage:&nbsp;</h2> 
+          <canvas id="bender3cpu" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+      </div>
+      <div id="big-div"></div>
+
+
+      <span id="bender-title"><b> Bender 4&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <hr/>
+      <div id="small-div"></div>
+      <div className="site-layout-content">
+        <div id="centered-div">
+          <h2>RAM Usage:&nbsp;</h2>
+          <canvas id="bender4ram" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+        <div id="med-div"></div>
+        <div id="centered-div">
+          <h2>CPU Usage:&nbsp;</h2> 
+          <canvas id="bender4cpu" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+      </div>
+      <div id="big-div"></div>
+
+
+      <span id="bender-title"><b> Bender 5&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <hr/>
+      <div id="small-div"></div>
+      <div className="site-layout-content">
+        <div id="centered-div">
+          <h2>RAM Usage:&nbsp;</h2>
+          <canvas id="bender5ram" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
+        <div id="med-div"></div>
+        <div id="centered-div">
+          <h2>CPU Usage:&nbsp;</h2> 
+          <canvas id="bender5cpu" style={{ width: "100%", height: "100%" }}></canvas>
+        </div>
         <div id="small-div"></div>
         <hr/>
         <div id="med-div"></div>
       </div>
     </Content>
-    <Footer style={{ textAlign: 'center' }}>Lucid Circuit ©2021 Created by Forrest Burton</Footer>
+    <Footer>Lucid Circuit ©2021 Created by Forrest Burton</Footer>
   </Layout>
   );
 }

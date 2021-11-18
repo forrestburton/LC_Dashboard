@@ -2,6 +2,10 @@ b {
   font-size: 35px;
 }
 
+Footer {
+  text-align: center;
+}
+
 #small-div {
   height: 50px;
 }
