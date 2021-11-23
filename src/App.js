@@ -8,7 +8,12 @@ import METRICS_2 from './graphs/metrics-bender-2.lucid.local.csv';
 import METRICS_3 from './graphs/metrics-bender-3.lucid.local.csv';
 import METRICS_4 from './graphs/metrics-bender-4.lucid.local.csv';
 import METRICS_5 from './graphs/metrics-bender-5.lucid.local.csv';
-import NUM_USERS from './graphs/users.txt';
+import USERS_0 from './graphs/users-bender-0.lucid.local.txt';
+import USERS_1 from './graphs/users-bender-1.lucid.local.txt';
+import USERS_2 from './graphs/users-bender-2.lucid.local.txt';
+import USERS_3 from './graphs/users-bender-3.lucid.local.txt';
+import USERS_4 from './graphs/users-bender-4.lucid.local.txt';
+import USERS_5 from './graphs/users-bender-5.lucid.local.txt';
 import { useEffect } from 'react';
 import * as d3 from "d3";
 import "./App.css";
@@ -73,7 +78,12 @@ const { Header, Content, Footer } = Layout;
 function App() {
   useEffect(() => {
     async function fetchData() {
-        await getNumUsers();  // bender 0 number of users
+        await getNumUsers(USERS_0, "output0");  // bender 0 number of users
+        await getNumUsers(USERS_1, "output1");  // bender 1 number of users
+        await getNumUsers(USERS_2, "output2");  // bender 2 number of users
+        await getNumUsers(USERS_3, "output3");  // bender 3 number of users
+        await getNumUsers(USERS_4, "output4");  // bender 4 number of users
+        await getNumUsers(USERS_5, "output5");  // bender 5 number of users
         await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu');  // bender 0 graphs
         await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu');  // bender 1 graphs
         await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu');  // bender 2 graphs
@@ -85,14 +95,14 @@ function App() {
     },
   ); 
 
-  function getNumUsers() {  // Read contents of users{x}.txt, which contains the number of users on bender x
+  function getNumUsers(numUsersFile, elemID) {  // Read contents of users-{x}.txt, which contains the number of users on bender x
     var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", NUM_USERS, false);
+    rawFile.open("GET", numUsersFile, false);
     rawFile.onreadystatechange = function () {
         if(rawFile.readyState === 4) {
             if(rawFile.status === 200 || rawFile.status === 0) {
               var numberOfUsers = rawFile.responseText;
-              document.getElementById('output').textContent=numberOfUsers;  // Set number of users in HTML
+              document.getElementById(elemID).textContent=numberOfUsers;  // Set number of users in HTML
             }
         }
     }
@@ -158,7 +168,7 @@ function App() {
     </Header>
     <div id="med-div"></div>
     <Content style={{ padding: '0 200px' }}>
-      <span id="bender-title"><b> Bender 0&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 0&nbsp;</b> **<span id="output0"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
       <div className="site-layout-content">
@@ -175,7 +185,7 @@ function App() {
       <div id="big-div"></div>
       
       
-      <span id="bender-title"><b> Bender 1&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 1&nbsp;</b> **<span id="output1"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
       <div className="site-layout-content">
@@ -192,7 +202,7 @@ function App() {
       <div id="big-div"></div>
 
       
-      <span id="bender-title"><b> Bender 2&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 2&nbsp;</b> **<span id="output2"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
       <div className="site-layout-content">
@@ -209,7 +219,7 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b> Bender 3&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 3&nbsp;</b> **<span id="output3"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
       <div className="site-layout-content">
@@ -226,7 +236,7 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b> Bender 4&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 4&nbsp;</b> **<span id="output4"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
       <div className="site-layout-content">
@@ -243,7 +253,7 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b> Bender 5&nbsp;</b> **<span id="output"></span> &nbsp;User(s)**</span>
+      <span id="bender-title"><b> Bender 5&nbsp;</b> **<span id="output5"></span> &nbsp;User(s)**</span>
       <hr/>
       <div id="small-div"></div>
       <div className="site-layout-content">

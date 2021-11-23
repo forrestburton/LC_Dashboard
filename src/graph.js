@@ -41,7 +41,9 @@ export function processGraphData (data) {  // Store JSON data into arrays
       currentCpuUsage = [];
     }
     currentUsersOnline[numberOfUsers] = user;
-    currentTimePeriod.push(data[i].Time);
+    if (numberOfUsers === 0) {  // We need time peroid from 1 user. Otherwise we will have duplicate time datapoints
+      currentTimePeriod.push(data[i].Time);
+    }
     currentRamUsage.push(data[i].RAM);
     currentCpuUsage.push(data[i].CPU);
   }

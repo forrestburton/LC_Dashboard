@@ -74,7 +74,7 @@ csv_filename="./src/graphs/metrics-${machine}.csv"
 people=$(users)
 num_users=$(./users.sh)
 
-txt_filename="./src/graphs/users.txt"
+txt_filename="./src/graphs/users-${machine}.txt"
 touch $txt_filename
 ./users.sh > $txt_filename
 
