@@ -66,15 +66,15 @@ EOF
   exit 0
 }
 
-trap "plotGraph" SIGINT SIGTERM SIGKILL
+#trap "plotGraph" SIGINT SIGTERM SIGKILL
 
 
-csv_filename="./src/graphs/metrics-${machine}.csv"
+csv_filename="metrics-${machine}.csv"
 
 people=$(users)
 num_users=$(./users.sh)
 
-txt_filename="./src/graphs/users-${machine}.txt"
+txt_filename="users-${machine}.txt"
 touch $txt_filename
 ./users.sh > $txt_filename
 
@@ -99,4 +99,6 @@ do
     done
 done
 
-plotGraph
+scp metrics-${machine} forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs"
+
+#plotGraph

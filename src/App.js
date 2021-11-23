@@ -200,7 +200,6 @@ function App() {
         </div>
       </div>
       <div id="big-div"></div>
-
       
       <span id="bender-title"><b> Bender 2&nbsp;</b> **<span id="output2"></span> &nbsp;User(s)**</span>
       <hr/>

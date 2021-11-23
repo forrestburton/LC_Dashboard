@@ -1,0 +1,1 @@
+for HOST in $(cat hosts.txt) ; do ssh $HOST "~/Desktop/metric-collector.sh"; done
