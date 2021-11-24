@@ -79,5 +79,5 @@ export function processGraphData (data) {  // Store JSON data into arrays
     }
   )
 
-  return [allUserRamUsage, allUserCpuUsage, currentTimePeriod];
+  return [allUserRamUsage, allUserCpuUsage, currentTimePeriod, numberOfUsers + 1];
 }
