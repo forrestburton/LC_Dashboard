@@ -84,21 +84,22 @@ touch $csv_filename
 echo "User,Time,CPU,RAM" >> $csv_filename
 echo "Number of users: $num_users"
 
-num=10
-time=1
+numDataPoints=10
+timeInterval=1
 for user in $people
 do 
     #echo "$user" >> $csv_filename
-    for i in $(seq 1 "$num") 
+    for i in $(seq 1 "$numDataPoints") 
     do
         timestamp=$(date +"%b %d %H:%M:%S")
         cpu=$(./cpu.sh $user) 
         ram=$(./ram.sh $user)
         echo "$user,$timestamp,$cpu,$ram" >> $csv_filename
-        sleep $time
+        sleep $timeInterval
     done
 done
 
-scp metrics-${machine} forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs"
+scp metrics-${machine}.csv forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs
+scp metrics-${users}.csv forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs
 
 #plotGraph

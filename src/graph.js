@@ -1,4 +1,5 @@
 import { pointColorScheme, lineColorScheme } from './utils.js'
+const NUM_DATA_POINTS = 10;
 
 export function processGraphData (data) {  // Store JSON data into arrays
   let currentUsersOnline = [];
@@ -8,11 +9,13 @@ export function processGraphData (data) {  // Store JSON data into arrays
   let allUserRamUsage = [];
   let allUserCpuUsage = [];
   let numberOfUsers = 0;
+  let currentUserDataPushed = 0;
   var pointColor;
   var lineColor;
+  var user;
 
-  for (let i = 0; i < data.length; i++) {   
-    var user = data[i].User;  // get current user
+  for (let i = 0; i < data.length; i++) {  
+    user = data[i].User;  // get current user
     pointColor = pointColorScheme[numberOfUsers];
     lineColor = lineColorScheme[numberOfUsers];
 
@@ -35,17 +38,31 @@ export function processGraphData (data) {  // Store JSON data into arrays
           borderWidth: 1
         }
       )
+      
       numberOfUsers += 1;
+      currentUserDataPushed = 0;
 
       currentRamUsage = [];  // clear datasets for next user
       currentCpuUsage = [];
     }
     currentUsersOnline[numberOfUsers] = user;
-    if (numberOfUsers === 0) {  // We need time peroid from 1 user. Otherwise we will have duplicate time datapoints
-      currentTimePeriod.push(data[i].Time);
+    if (currentUserDataPushed >= 10) {
+      i += NUM_DATA_POINTS - 1;
     }
-    currentRamUsage.push(data[i].RAM);
-    currentCpuUsage.push(data[i].CPU);
+    else {
+      if (numberOfUsers === 0) {  // We need time peroid from 1 user. Otherwise we will have duplicate time datapoints
+        currentTimePeriod.push(data[i].Time);
+      }
+      
+      if (user === "jack.barber") {
+        console.log(data[i].RAM)
+        console.log(data[i].CPU)
+      }
+
+      currentRamUsage.push(data[i].RAM);
+      currentCpuUsage.push(data[i].CPU);
+      currentUserDataPushed += 1;
+    }
   }
 
   allUserRamUsage.push(  // Push data one more time for last iteration 
