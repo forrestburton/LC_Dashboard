@@ -122,7 +122,6 @@ function App() {
         let currentTimePeriod = graphData[2];
         let numberOfUsers = graphData[3];
         document.getElementById(elemID).textContent=numberOfUsers;  // Set number of users in HTML
-        console.log(numberOfUsers)
 
         generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB');  // RAM Usage Graph
         generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%');  // CPU Usage Graph
