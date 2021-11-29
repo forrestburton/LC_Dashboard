@@ -70,12 +70,6 @@ const { Header, Content, Footer } = Layout;
 function App() {
   useEffect(() => {
     async function fetchData() {
-        // await getNumUsers(USERS_0, "output0");  // bender 0 number of users
-        // await getNumUsers(USERS_1, "output1");  // bender 1 number of users
-        // await getNumUsers(USERS_2, "output2");  // bender 2 number of users
-        // await getNumUsers(USERS_3, "output3");  // bender 3 number of users
-        // await getNumUsers(USERS_4, "output4");  // bender 4 number of users
-        // await getNumUsers(USERS_5, "output5");  // bender 5 number of users
         await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu', 'output0');  // bender 0 graphs
         await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu', 'output1');  // bender 1 graphs
         await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu', 'output2');  // bender 2 graphs
