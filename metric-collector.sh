@@ -1,5 +1,8 @@
+PROJECT_LOCATION="forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs"
 own=$(id -nu)
 machine=$(hostname)
+
+# generates a png graph from csv data. not used in Dashboard but could possibly be useful 
 function plotGraph() {
   # bring cursor to next line after interrupt
   echo
@@ -70,19 +73,12 @@ EOF
 
 
 csv_filename="metrics-${machine}.csv"
-
 people=$(users)
-num_users=$(./users.sh)
 
-txt_filename="users-${machine}.txt"
-touch $txt_filename
-./users.sh > $txt_filename
-
-echo "Writing data to CSV file $csv_filename..."
+#echo "Writing data to CSV file $csv_filename..."
 rm $csv_filename
 touch $csv_filename
-echo "User,Time,CPU,RAM" >> $csv_filename
-echo "Number of users: $num_users"
+#echo "User,Time,CPU,RAM" >> $csv_filename
 
 numDataPoints=10
 timeInterval=1
@@ -92,14 +88,13 @@ do
     for i in $(seq 1 "$numDataPoints") 
     do
         timestamp=$(date +"%b %d %H:%M:%S")
-        cpu=$(./cpu.sh $user) 
-        ram=$(./ram.sh $user)
+        cpu=$(~/Desktop/cpu.sh $user) 
+        ram=$(~/Desktop/ram.sh $user)
         echo "$user,$timestamp,$cpu,$ram" >> $csv_filename
         sleep $timeInterval
     done
 done
 
-scp metrics-${machine}.csv forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs
-scp metrics-${users}.csv forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs
+scp metrics-${machine}.csv $PROJECT_LOCATION
 
 #plotGraph
