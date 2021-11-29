@@ -78,22 +78,9 @@ function App() {
         await generateGraphData(METRICS_5, 'bender5ram', 'bender5cpu', 'output5');  // bender 5 graphs
       }
       fetchData();
+      //window.location.reload(false);
     },
   ); 
-
-  function getNumUsers(numUsersFile, elemID) {  // Read contents of users-{x}.txt, which contains the number of users on bender x
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", numUsersFile, false);
-    rawFile.onreadystatechange = function () {
-        if(rawFile.readyState === 4) {
-            if(rawFile.status === 200 || rawFile.status === 0) {
-              var numberOfUsers = rawFile.responseText;
-              document.getElementById(elemID).textContent=numberOfUsers;  // Set number of users in HTML
-            }
-        }
-    }
-    rawFile.send(null);
-  }
 
   const loadGraphDataWithPromise = (metrics) => {  // Grab data from CSV file in JSON format
     return d3.csv(metrics)
@@ -118,9 +105,9 @@ function App() {
   function generateGraphs(dataset, xAxis, id, units) {  // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
-    // if(window.myChart1 != null){
-    //   window.myChart1.destroy();
-    // }
+    if (window.myChart1 != null) {
+      window.myChart1.update();
+    }
     
     window.myChart1 = new Chart(ctx, {
       type: 'line',

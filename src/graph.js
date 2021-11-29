@@ -89,7 +89,7 @@ export function processGraphData (data) {  // Store JSON data into arrays
   for (let i = 0; i < allUserCpuUsage.length; i++) {
     let currentUserCpu = allUserCpuUsage[i].data;
     for (let i = 0; i < NUM_DATA_POINTS; i++) {
-      totalCpuUsage[i] += parseInt(currentUserCpu[i]);
+      totalCpuUsage[i] += parseFloat(currentUserCpu[i]);
     }
   }
 
@@ -107,7 +107,7 @@ export function processGraphData (data) {  // Store JSON data into arrays
   for (let i = 0; i < allUserRamUsage.length; i++) {
     let currentUserRam = allUserRamUsage[i].data;
     for (let i = 0; i < NUM_DATA_POINTS; i++) {
-      totalRamUsage[i] += parseInt(currentUserRam[i]);
+      totalRamUsage[i] += parseFloat(currentUserRam[i]);
     }
   }
 
