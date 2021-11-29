@@ -78,7 +78,7 @@ people=$(users)
 #echo "Writing data to CSV file $csv_filename..."
 rm $csv_filename
 touch $csv_filename
-#echo "User,Time,CPU,RAM" >> $csv_filename
+echo "User,Time,CPU,RAM" >> $csv_filename
 
 numDataPoints=10
 timeInterval=1
