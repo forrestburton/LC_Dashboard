@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 To generate graphs and data, cd to project directory then run:
-### `./metric-collector.sh`
+### `./metrics.sh`
 
 To launch web app, cd to project directory then run:
 ### `npm run start`
