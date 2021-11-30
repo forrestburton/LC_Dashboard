@@ -30,3 +30,39 @@ Footer {
   align-items: center;
   font-size: 20px;
 }
+
+#users0 {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+#users1 {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+#users2 {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+#users3 {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+#users4 {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+#users5 {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
