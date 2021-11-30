@@ -96,9 +96,9 @@ function App() {
         let numberOfUsers = graphData[3];
         let virtualUsers = graphData[4];
 
-        let usersList = "<table><tr>";
+        let usersList = "<table><tr><td><b>Users:</b></td>";
         for (let i = 0; i < virtualUsers.length; i++) {
-          usersList += `<td id="user"> ${virtualUsers[i]} </td>`;
+          usersList += `<td id="user">${i+1}) ${virtualUsers[i]} </td>`;
           usersList += `<td id="user"> &#9;</td>`;
         }
         usersList += "</tr></table>";
@@ -152,9 +152,9 @@ function App() {
     </Header>
     <div id="med-div"></div>
     <Content style={{ padding: '0 200px' }}>
-      <span id="bender-title"><b> Bender 0&nbsp;</b> **<span id="output0"></span> &nbsp;User(s)**</span>
-      <div id="users0"></div>
+      <span id="bender-title"><b id="bender"> Bender 0&nbsp;</b> **<span id="output0"></span> &nbsp;User(s)**</span>
       <hr/>
+      <div id="users0"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -170,9 +170,9 @@ function App() {
       <div id="big-div"></div>
       
       
-      <span id="bender-title"><b> Bender 1&nbsp;</b> **<span id="output1"></span> &nbsp;User(s)**</span>
-      <div id="users1"></div>
+      <span id="bender-title"><b id="bender"> Bender 1&nbsp;</b> **<span id="output1"></span> &nbsp;User(s)**</span>
       <hr/>
+      <div id="users1"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -187,9 +187,9 @@ function App() {
       </div>
       <div id="big-div"></div>
       
-      <span id="bender-title"><b> Bender 2&nbsp;</b> **<span id="output2"></span> &nbsp;User(s)**</span>
-      <div id="users2"></div>
+      <span id="bender-title"><b id="bender"> Bender 2&nbsp;</b> **<span id="output2"></span> &nbsp;User(s)**</span>
       <hr/>
+      <div id="users2"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -205,9 +205,9 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b> Bender 3&nbsp;</b> **<span id="output3"></span> &nbsp;User(s)**</span>
-      <div id="users3"></div>
+      <span id="bender-title"><b id="bender"> Bender 3&nbsp;</b> **<span id="output3"></span> &nbsp;User(s)**</span>
       <hr/>
+      <div id="users3"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -223,9 +223,9 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b> Bender 4&nbsp;</b> **<span id="output4"></span> &nbsp;User(s)**</span>
-      <div id="users4"></div>
+      <span id="bender-title"><b id="bender"> Bender 4&nbsp;</b> **<span id="output4"></span> &nbsp;User(s)**</span>
       <hr/>
+      <div id="users4"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -241,9 +241,9 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b> Bender 5&nbsp;</b> **<span id="output5"></span> &nbsp;User(s)**</span>
-      <div id="users5"></div>
+      <span id="bender-title"><b id="bender"> Bender 5&nbsp;</b> **<span id="output5"></span> &nbsp;User(s)**</span>
       <hr/>
+      <div id="users5"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
