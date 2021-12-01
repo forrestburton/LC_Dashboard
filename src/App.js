@@ -70,12 +70,12 @@ const { Header, Content, Footer } = Layout;
 function App() {
   useEffect(() => {
     async function fetchData() {
-        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu', 'output0', 'users0');  // bender 0 graphs
-        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu', 'output1', 'users1');  // bender 1 graphs
-        await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu', 'output2', 'users2');  // bender 2 graphs
-        await generateGraphData(METRICS_3, 'bender3ram', 'bender3cpu', 'output3', 'users3');  // bender 3 graphs
-        await generateGraphData(METRICS_4, 'bender4ram', 'bender4cpu', 'output4', 'users4');  // bender 4 graphs
-        await generateGraphData(METRICS_5, 'bender5ram', 'bender5cpu', 'output5', 'users5');  // bender 5 graphs
+        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu', 'users0');  // bender 0 graphs
+        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu', 'users1');  // bender 1 graphs
+        await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu', 'users2');  // bender 2 graphs
+        await generateGraphData(METRICS_3, 'bender3ram', 'bender3cpu', 'users3');  // bender 3 graphs
+        await generateGraphData(METRICS_4, 'bender4ram', 'bender4cpu', 'users4');  // bender 4 graphs
+        await generateGraphData(METRICS_5, 'bender5ram', 'bender5cpu','users5');  // bender 5 graphs
       }
       fetchData();
       //window.location.reload(false);
@@ -86,24 +86,22 @@ function App() {
     return d3.csv(metrics)
   }
 
-  async function generateGraphData(metrics, firstChartID, secondChartID, numUserID, userListID) {  // Store JSON data into arrays (using graph.js functions)
+  async function generateGraphData(metrics, firstChartID, secondChartID, userListID) {  // Store JSON data into arrays (using graph.js functions)
     loadGraphDataWithPromise(metrics).then((data) => { 
       import("./graph").then(graph => {
         let graphData = graph.processGraphData(data);
         let allUserRamUsage = graphData[0];
         let allUserCpuUsage = graphData[1];
         let currentTimePeriod = graphData[2];
-        let numberOfUsers = graphData[3];
-        let virtualUsers = graphData[4];
+        let virtualUsers = graphData[3];
 
-        let usersList = "<table><tr><td><b>Users:</b></td>";
+        let usersList = "<table><tr><td><b><u>Users:</u></b></td>";
         for (let i = 0; i < virtualUsers.length; i++) {
-          usersList += `<td id="user">${i+1}) ${virtualUsers[i]} </td>`;
+          usersList += `<td id="user"> ${virtualUsers[i]} </td>`;
           usersList += `<td id="user"> &#9;</td>`;
         }
         usersList += "</tr></table>";
         document.getElementById(userListID).innerHTML=usersList;  // Set list of users in HTML
-        document.getElementById(numUserID).textContent=numberOfUsers;  // Set number of users in HTML
 
         generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB');  // RAM Usage Graph
         generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%');  // CPU Usage Graph
@@ -152,9 +150,11 @@ function App() {
     </Header>
     <div id="med-div"></div>
     <Content style={{ padding: '0 200px' }}>
-      <span id="bender-title"><b id="bender"> Bender 0&nbsp;</b> **<span id="output0"></span> &nbsp;User(s)**</span>
+      <div id="header-div">
+        <span id="bender-title"><b id="bender"> Bender 0&nbsp;</b> </span>
+        <div id="users0"></div>
+      </div>
       <hr/>
-      <div id="users0"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -170,9 +170,11 @@ function App() {
       <div id="big-div"></div>
       
       
-      <span id="bender-title"><b id="bender"> Bender 1&nbsp;</b> **<span id="output1"></span> &nbsp;User(s)**</span>
+      <div id="header-div">
+        <span id="bender-title"><b id="bender"> Bender 1&nbsp;</b> </span>
+        <div id="users1"></div>
+      </div>
       <hr/>
-      <div id="users1"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -187,9 +189,11 @@ function App() {
       </div>
       <div id="big-div"></div>
       
-      <span id="bender-title"><b id="bender"> Bender 2&nbsp;</b> **<span id="output2"></span> &nbsp;User(s)**</span>
+      <div id="header-div">
+        <span id="bender-title"><b id="bender"> Bender 2&nbsp;</b> </span>
+        <div id="users2"></div>
+      </div>
       <hr/>
-      <div id="users2"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -205,9 +209,11 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b id="bender"> Bender 3&nbsp;</b> **<span id="output3"></span> &nbsp;User(s)**</span>
+      <div id="header-div">
+        <span id="bender-title"><b id="bender"> Bender 3&nbsp;</b> </span>
+        <div id="users3"></div>
+      </div>
       <hr/>
-      <div id="users3"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -223,9 +229,11 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b id="bender"> Bender 4&nbsp;</b> **<span id="output4"></span> &nbsp;User(s)**</span>
+      <div id="header-div">
+        <span id="bender-title"><b id="bender"> Bender 4&nbsp;</b> </span>
+        <div id="users4"></div>
+      </div>
       <hr/>
-      <div id="users4"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">
@@ -241,9 +249,11 @@ function App() {
       <div id="big-div"></div>
 
 
-      <span id="bender-title"><b id="bender"> Bender 5&nbsp;</b> **<span id="output5"></span> &nbsp;User(s)**</span>
+      <div id="header-div">
+        <span id="bender-title"><b id="bender"> Bender 5&nbsp;</b> </span>
+        <div id="users5"></div>
+      </div>
       <hr/>
-      <div id="users5"></div>
       <div id="small-div"></div>
       <div className="site-layout-content">
         <div id="centered-div">

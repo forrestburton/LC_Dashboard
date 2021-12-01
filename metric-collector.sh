@@ -71,7 +71,6 @@ EOF
 
 #trap "plotGraph" SIGINT SIGTERM SIGKILL
 
-
 csv_filename="metrics-${machine}.csv"
 people=$(users)
 

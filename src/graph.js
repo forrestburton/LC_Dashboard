@@ -122,7 +122,7 @@ export function processGraphData (data) {  // Store JSON data into arrays
     }
   )
 
-  return [benderRamUsage, benderCpuUsage, currentTimePeriod, numberOfUsers + 1, currentUsersOnline];
+  return [benderRamUsage, benderCpuUsage, currentTimePeriod, currentUsersOnline];
 }
 
 export function processIndividualUserGraphData (data) {  // Store JSON data into arrays

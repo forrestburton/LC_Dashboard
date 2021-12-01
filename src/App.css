@@ -1,5 +1,13 @@
 #bender {
-  font-size: 35px;
+  font-size: 45px;
+}
+
+tr { 
+  display: block; float: left; 
+}
+
+td { 
+  display: block; 
 }
 
 Footer {
@@ -24,45 +32,43 @@ Footer {
   align-items: center;
 }
 
-#bender-title {
+#header-div {
   display: flex;
-  justify-content: center; 
-  align-items: center;
-  font-size: 20px;
+}
+
+#bender-title {
+  margin-bottom: 0;
+  margin-top: auto;
+  
 }
 
 #users0 {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+  margin-left: auto; 
+  margin-right: 0;
+  bottom: 0;
 }
 
 #users1 {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+  margin-left: auto; 
+  margin-right: 0;
 }
 
 #users2 {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+  margin-left: auto; 
+  margin-right: 0;
 }
 
 #users3 {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+  margin-left: auto; 
+  margin-right: 0;
 }
 
 #users4 {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+  margin-left: auto; 
+  margin-right: 0;
 }
 
 #users5 {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+  margin-left: auto; 
+  margin-right: 0;
 }
