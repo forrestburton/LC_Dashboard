@@ -1,4 +1,4 @@
-PROJECT_LOCATION="forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs"
+PROJECT_LOCATION="forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs"  # location of metrics-{bender_hostname}.csv file on the current device
 own=$(id -nu)
 machine=$(hostname)
 
