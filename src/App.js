@@ -66,19 +66,31 @@ Chart.register(
 );
 
 const { Header, Content, Footer } = Layout;
+var myChart0Ram = null;
+var myChart1Ram = null;
+var myChart2Ram = null;
+var myChart3Ram = null;
+var myChart4Ram = null;
+var myChart5Ram = null;
+var myChart0Cpu = null;
+var myChart1Cpu = null;
+var myChart2Cpu = null;
+var myChart3Cpu = null;
+var myChart4Cpu = null;
+var myChart5Cpu = null;
 
 function App() {
   useEffect(() => {
+    
     async function fetchData() {
-        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu', 'users0');  // bender 0 graphs
-        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu', 'users1');  // bender 1 graphs
-        await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu', 'users2');  // bender 2 graphs
-        await generateGraphData(METRICS_3, 'bender3ram', 'bender3cpu', 'users3');  // bender 3 graphs
-        await generateGraphData(METRICS_4, 'bender4ram', 'bender4cpu', 'users4');  // bender 4 graphs
-        await generateGraphData(METRICS_5, 'bender5ram', 'bender5cpu','users5');  // bender 5 graphs
+        await generateGraphData(METRICS_0, 'bender0ram', 'bender0cpu', 'users0', 0);  // bender 0 graphs
+        await generateGraphData(METRICS_1, 'bender1ram', 'bender1cpu', 'users1', 1);  // bender 1 graphs
+        await generateGraphData(METRICS_2, 'bender2ram', 'bender2cpu', 'users2', 2);  // bender 2 graphs
+        await generateGraphData(METRICS_3, 'bender3ram', 'bender3cpu', 'users3', 3);  // bender 3 graphs
+        await generateGraphData(METRICS_4, 'bender4ram', 'bender4cpu', 'users4', 4);  // bender 4 graphs
+        await generateGraphData(METRICS_5, 'bender5ram', 'bender5cpu','users5', 5);  // bender 5 graphs
       }
       fetchData();
-      //window.location.reload(false);
     },
   ); 
 
@@ -86,7 +98,7 @@ function App() {
     return d3.csv(metrics)
   }
 
-  async function generateGraphData(metrics, firstChartID, secondChartID, userListID) {  // Store JSON data into arrays (using graph.js functions)
+  async function generateGraphData(metrics, firstChartID, secondChartID, userListID, chartID) {  // Store JSON data into arrays (using graph.js functions)
     loadGraphDataWithPromise(metrics).then((data) => { 
       import("./graph").then(graph => {
         let graphData = graph.processGraphData(data);
@@ -103,20 +115,46 @@ function App() {
         usersList += "</tr></table>";
         document.getElementById(userListID).innerHTML=usersList;  // Set list of users in HTML
 
-        generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB');  // RAM Usage Graph
-        generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%');  // CPU Usage Graph
+        switch (chartID) {
+          case 0:
+            generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB', myChart0Ram);  // RAM Usage Graph
+            generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%', myChart0Cpu);  // CPU Usage Graph
+            break;
+          case 1:
+            generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB', myChart1Ram);  // RAM Usage Graph
+            generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%', myChart1Cpu);  // CPU Usage Graph
+            break;
+          case 2:
+            generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB', myChart2Ram);  // RAM Usage Graph
+            generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%', myChart2Cpu);  // CPU Usage Graph
+            break;
+          case 3:
+            generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB', myChart3Ram);  // RAM Usage Graph
+            generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%', myChart3Cpu);  // CPU Usage Graph
+            break;
+          case 4:
+            generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB', myChart4Ram);  // RAM Usage Graph
+            generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%', myChart4Cpu);  // CPU Usage Graph
+            break;
+          case 5:
+            generateGraphs(allUserRamUsage, currentTimePeriod, firstChartID, 'GB', myChart5Ram);  // RAM Usage Graph
+            generateGraphs(allUserCpuUsage, currentTimePeriod, secondChartID, '%', myChart5Cpu);  // CPU Usage Graph
+            break;
+          default:
+        }
       });
     })
   }
 
-  function generateGraphs(dataset, xAxis, id, units) {  // Create Graphs
+  function generateGraphs(dataset, xAxis, id, units, chartName) {  // Create Graphs
     const ctx = document.getElementById(id).getContext('2d');
 
-    if (window.myChart1 != null) {
-      window.myChart1.update();
+    if (chartName) {
+      console.log("Got IN!")
+      chartName.destroy();
     }
     
-    window.myChart1 = new Chart(ctx, {
+    chartName = new Chart(ctx, {
       type: 'line',
       data: {
         labels: xAxis,  // x-axis

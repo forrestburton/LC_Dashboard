@@ -1,4 +1,5 @@
-PROJECT_LOCATION="forrestburton@192.168.1.53:~/Desktop/Dashboard/my-app/src/graphs"
+# FOR TESTING PURPOSES
+PROJECT_LOCATION="forrestburton@192.168.1.53:~/Dashboard/my-app/src/graphs"
 own=$(id -nu)
 machine=$(hostname)
 
@@ -72,16 +73,19 @@ EOF
 #trap "plotGraph" SIGINT SIGTERM SIGKILL
 
 
-csv_filename="metrics-${machine}.csv"
+csv_filename="./src/graphs/metrics-bender-0.lucid.local.csv"
 people=$(users)
 
 #echo "Writing data to CSV file $csv_filename..."
-rm $csv_filename
-touch $csv_filename
+#rm $csv_filename
+if ! test -f $csv_filename; then
+  touch $csv_filename
+fi
+> $csv_filename
 echo "User,Time,CPU,RAM" >> $csv_filename
 
 numDataPoints=10
-timeInterval=1
+timeInterval=0.5
 for user in $people
 do 
     #echo "$user" >> $csv_filename
@@ -95,19 +99,17 @@ do
     done
 done
 
-while :
-do
-    for user in $people
-    do 
-        sed -i '$ d' $csv_filename
-        timestamp=$(date +"%b %d %H:%M:%S")
-        cpu=$(./cpu.sh $user) 
-        ram=$(./ram.sh $user)
-        sed -i "2i $user,$timestamp,$cpu,$ram" $csv_filename
-        sleep $timeInterval
-    done
-done
-
-scp metrics-${machine}.csv $PROJECT_LOCATION
+# while :
+# do
+#     for user in $people
+#     do 
+#         sed -i '$ d' $csv_filename
+#         timestamp=$(date +"%b %d %H:%M:%S")
+#         cpu=$(./cpu.sh $user) 
+#         ram=$(./ram.sh $user)
+#         sed -i "2i $user,$timestamp,$cpu,$ram" $csv_filename
+#         sleep $timeInterval
+#     done
+# done
 
 #plotGraph
